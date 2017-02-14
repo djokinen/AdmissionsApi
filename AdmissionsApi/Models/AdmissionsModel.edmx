@@ -1,0 +1,274 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="AdmissionsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="GlossaryMessage">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="GlossaryMessageTypeCategoryId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Code" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Note" Type="varchar" MaxLength="255" />
+          <Property Name="Description" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Text" Type="varchar(max)" />
+          <Property Name="IsBulletPoint" Type="bit" Nullable="false" />
+          <Property Name="ReplacedBy_GlossaryMessageId" Type="uniqueidentifier" />
+          <Property Name="Enabled" Type="bit" Nullable="false" />
+          <Property Name="Created" Type="datetime" Nullable="false" />
+          <Property Name="Modified" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="GlossaryMessageType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="Enabled" Type="bit" Nullable="false" />
+          <Property Name="Created" Type="datetime" Nullable="false" />
+          <Property Name="Modified" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="GlossaryMessageTypeCategory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="GlossaryMessageTypeId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="Enabled" Type="bit" Nullable="false" />
+          <Property Name="Created" Type="datetime" Nullable="false" />
+          <Property Name="Modified" Type="datetime" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_GlossaryMessage_GlossaryMessage">
+          <End Role="GlossaryMessage" Type="Self.GlossaryMessage" Multiplicity="0..1" />
+          <End Role="GlossaryMessage1" Type="Self.GlossaryMessage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GlossaryMessage">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="GlossaryMessage1">
+              <PropertyRef Name="ReplacedBy_GlossaryMessageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GlossaryMessage_GlossaryMessageTypeCategory">
+          <End Role="GlossaryMessageTypeCategory" Type="Self.GlossaryMessageTypeCategory" Multiplicity="1" />
+          <End Role="GlossaryMessage" Type="Self.GlossaryMessage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GlossaryMessageTypeCategory">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="GlossaryMessage">
+              <PropertyRef Name="GlossaryMessageTypeCategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GlossaryMessageTypeCategory_GlossaryMessageType">
+          <End Role="GlossaryMessageType" Type="Self.GlossaryMessageType" Multiplicity="1" />
+          <End Role="GlossaryMessageTypeCategory" Type="Self.GlossaryMessageTypeCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GlossaryMessageType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="GlossaryMessageTypeCategory">
+              <PropertyRef Name="GlossaryMessageTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="AdmissionsModelStoreContainer">
+          <EntitySet Name="GlossaryMessage" EntityType="Self.GlossaryMessage" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GlossaryMessageType" EntityType="Self.GlossaryMessageType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GlossaryMessageTypeCategory" EntityType="Self.GlossaryMessageTypeCategory" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_GlossaryMessage_GlossaryMessage" Association="Self.FK_GlossaryMessage_GlossaryMessage">
+            <End Role="GlossaryMessage" EntitySet="GlossaryMessage" />
+            <End Role="GlossaryMessage1" EntitySet="GlossaryMessage" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GlossaryMessage_GlossaryMessageTypeCategory" Association="Self.FK_GlossaryMessage_GlossaryMessageTypeCategory">
+            <End Role="GlossaryMessageTypeCategory" EntitySet="GlossaryMessageTypeCategory" />
+            <End Role="GlossaryMessage" EntitySet="GlossaryMessage" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GlossaryMessageTypeCategory_GlossaryMessageType" Association="Self.FK_GlossaryMessageTypeCategory_GlossaryMessageType">
+            <End Role="GlossaryMessageType" EntitySet="GlossaryMessageType" />
+            <End Role="GlossaryMessageTypeCategory" EntitySet="GlossaryMessageTypeCategory" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="AdmissionsModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="GlossaryMessage">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="GlossaryMessageTypeCategoryId" Type="Guid" Nullable="false" />
+          <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Note" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Text" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="IsBulletPoint" Type="Boolean" Nullable="false" />
+          <Property Name="ReplacedBy_GlossaryMessageId" Type="Guid" />
+          <Property Name="Enabled" Type="Boolean" Nullable="false" />
+          <Property Name="Created" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Modified" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="GlossaryMessage1" Relationship="Self.FK_GlossaryMessage_GlossaryMessage" FromRole="GlossaryMessage" ToRole="GlossaryMessage1" />
+          <NavigationProperty Name="GlossaryMessage2" Relationship="Self.FK_GlossaryMessage_GlossaryMessage" FromRole="GlossaryMessage1" ToRole="GlossaryMessage" />
+          <NavigationProperty Name="GlossaryMessageTypeCategory" Relationship="Self.FK_GlossaryMessage_GlossaryMessageTypeCategory" FromRole="GlossaryMessage" ToRole="GlossaryMessageTypeCategory" />
+        </EntityType>
+        <EntityType Name="GlossaryMessageType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Enabled" Type="Boolean" Nullable="false" />
+          <Property Name="Created" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Modified" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="GlossaryMessageTypeCategories" Relationship="Self.FK_GlossaryMessageTypeCategory_GlossaryMessageType" FromRole="GlossaryMessageType" ToRole="GlossaryMessageTypeCategory" />
+        </EntityType>
+        <EntityType Name="GlossaryMessageTypeCategory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="GlossaryMessageTypeId" Type="Guid" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Enabled" Type="Boolean" Nullable="false" />
+          <Property Name="Created" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Modified" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="GlossaryMessages" Relationship="Self.FK_GlossaryMessage_GlossaryMessageTypeCategory" FromRole="GlossaryMessageTypeCategory" ToRole="GlossaryMessage" />
+          <NavigationProperty Name="GlossaryMessageType" Relationship="Self.FK_GlossaryMessageTypeCategory_GlossaryMessageType" FromRole="GlossaryMessageTypeCategory" ToRole="GlossaryMessageType" />
+        </EntityType>
+        <Association Name="FK_GlossaryMessage_GlossaryMessage">
+          <End Role="GlossaryMessage" Type="Self.GlossaryMessage" Multiplicity="0..1" />
+          <End Role="GlossaryMessage1" Type="Self.GlossaryMessage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GlossaryMessage">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="GlossaryMessage1">
+              <PropertyRef Name="ReplacedBy_GlossaryMessageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GlossaryMessage_GlossaryMessageTypeCategory">
+          <End Role="GlossaryMessageTypeCategory" Type="Self.GlossaryMessageTypeCategory" Multiplicity="1" />
+          <End Role="GlossaryMessage" Type="Self.GlossaryMessage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GlossaryMessageTypeCategory">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="GlossaryMessage">
+              <PropertyRef Name="GlossaryMessageTypeCategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GlossaryMessageTypeCategory_GlossaryMessageType">
+          <End Role="GlossaryMessageType" Type="Self.GlossaryMessageType" Multiplicity="1" />
+          <End Role="GlossaryMessageTypeCategory" Type="Self.GlossaryMessageTypeCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GlossaryMessageType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="GlossaryMessageTypeCategory">
+              <PropertyRef Name="GlossaryMessageTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="GlossaryMessages" EntityType="Self.GlossaryMessage" />
+          <EntitySet Name="GlossaryMessageTypes" EntityType="Self.GlossaryMessageType" />
+          <EntitySet Name="GlossaryMessageTypeCategories" EntityType="Self.GlossaryMessageTypeCategory" />
+          <AssociationSet Name="FK_GlossaryMessage_GlossaryMessage" Association="Self.FK_GlossaryMessage_GlossaryMessage">
+            <End Role="GlossaryMessage" EntitySet="GlossaryMessages" />
+            <End Role="GlossaryMessage1" EntitySet="GlossaryMessages" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GlossaryMessage_GlossaryMessageTypeCategory" Association="Self.FK_GlossaryMessage_GlossaryMessageTypeCategory">
+            <End Role="GlossaryMessageTypeCategory" EntitySet="GlossaryMessageTypeCategories" />
+            <End Role="GlossaryMessage" EntitySet="GlossaryMessages" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GlossaryMessageTypeCategory_GlossaryMessageType" Association="Self.FK_GlossaryMessageTypeCategory_GlossaryMessageType">
+            <End Role="GlossaryMessageType" EntitySet="GlossaryMessageTypes" />
+            <End Role="GlossaryMessageTypeCategory" EntitySet="GlossaryMessageTypeCategories" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="AdmissionsModelStoreContainer" CdmEntityContainer="Entities">
+          <EntitySetMapping Name="GlossaryMessages">
+            <EntityTypeMapping TypeName="AdmissionsModel.GlossaryMessage">
+              <MappingFragment StoreEntitySet="GlossaryMessage">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="GlossaryMessageTypeCategoryId" ColumnName="GlossaryMessageTypeCategoryId" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Note" ColumnName="Note" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Text" ColumnName="Text" />
+                <ScalarProperty Name="IsBulletPoint" ColumnName="IsBulletPoint" />
+                <ScalarProperty Name="ReplacedBy_GlossaryMessageId" ColumnName="ReplacedBy_GlossaryMessageId" />
+                <ScalarProperty Name="Enabled" ColumnName="Enabled" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="Modified" ColumnName="Modified" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GlossaryMessageTypes">
+            <EntityTypeMapping TypeName="AdmissionsModel.GlossaryMessageType">
+              <MappingFragment StoreEntitySet="GlossaryMessageType">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Enabled" ColumnName="Enabled" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="Modified" ColumnName="Modified" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GlossaryMessageTypeCategories">
+            <EntityTypeMapping TypeName="AdmissionsModel.GlossaryMessageTypeCategory">
+              <MappingFragment StoreEntitySet="GlossaryMessageTypeCategory">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="GlossaryMessageTypeId" ColumnName="GlossaryMessageTypeId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Enabled" ColumnName="Enabled" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="Modified" ColumnName="Modified" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
